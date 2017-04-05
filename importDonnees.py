@@ -18,7 +18,7 @@ class Installation :
         print("{0}, {1}, {2}".format(self.nomInstall, self.numInstall, self.nomCommune))
 
 class Equipement :
-    def __int__(self, numInstall, numEqu, nomEqu, nomBat, nbPTribune,accessH, dateMaj):
+    def __init__(self, numInstall, numEqu, nomEqu, nomBat, nbPTribune, accessH, dateMaj):
         self.numInstall = numInstall
         self.numEqu = numEqu
         self.nomEqu = nomEqu
@@ -30,7 +30,7 @@ class Equipement :
         print("{0}, {1}, {2}".format(self.numInstall, self.numEqu, self.nomEqu))
 
 class Activite :
-    def __int__(self, numEqu, numAct, nomAct, typeAct):
+    def __init__(self, numEqu, numAct, nomAct, typeAct):
         self.numEqu = numEqu
         self.numAct = numAct
         self.nomAct = nomAct
@@ -48,8 +48,9 @@ def importInstallation(nomFichier):
 
 def importEquipement(nomFichier):
     fichier=csv.DictReader(codecs.open(nomFichier,"r","utf-8"))
+
     for row in fichier:
-        equip = Equipement(row['InsNumeroInstall'], row['EquipementId'], row['EquNom'], row['EquNomBatiment'], row['EquNbPlaceTribune'],\
+        equip = Equipement(row['InsNumeroInstall'], row['EquipementId'], row['EquNom'], row['EquNomBatiment'], row['EquNbPlaceTribune'], \
             row['EquAccesHandisAucun'], row['EquDateMaj'])
         print(equip.display_equip())
 
@@ -57,4 +58,11 @@ def importActivites(nomFichier):
     fichier=csv.DictReader(codecs.open(nomFichier,"r","utf-8"))
     for row in fichier:
         act = Activite(row['EquipementId'], row['ActCode'], row['ActLib'], row['ActNivLib'])
-        print(act.display_equip())
+        print(act.display_act())
+
+print("Création des objets installations\n")
+importInstallation("data/installations.csv")
+print("\n\nCréation des objets équipements\n")
+importEquipement("data/equipements.csv")
+print("\n\nCréation des objets activités\n")
+importActivites("data/activites.csv")
