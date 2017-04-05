@@ -32,6 +32,6 @@ def importEquipement(nomFichier):
     fichier=csv.reader(codecs.open(nomFichier,"r","utf-8"))
     for row in fichier:
         #install = Installation(row[1])
-        print(row[0])
+        print(row[0], row[1])
 
-importEquipement("installations_table.csv")
+importEquipement("installation1.csv")
