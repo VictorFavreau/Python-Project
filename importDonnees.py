@@ -1,37 +1,60 @@
 import csv
 import codecs
 class Installation :
-    def __init__(self, nomInstall,numInstall,nomCommune,codeINSEE,cp,nomLieuD,numVoie,nomVoie,location,longitude,latitude,accessH,nbPlacesP):
+    def __init__(self, nomInstall,numInstall,nomCommune,cp,nomLieuD,numVoie,nomVoie,longitude,latitude,accessH,nbPlacesP):
         self.nomInstall = nomInstall
         self.numInstall = numInstall
         self.nomCommune = nomCommune
-        self.codeINSEE = codeINSEE
         self.cp=cp
         self.nomLieuD = nomLieuD
         self.numVoie = numVoie
         self.nomVoie = nomVoie
-        self.location = location
         self.longitude = longitude
         self.latitude = latitude
         self.accessH = accessH
         self.nbPlacesP = nbPlacesP
 
-    def display_personne(self):
-        print("{0}, {1}, {2}, {3}".format(self.nomInstall, self.numInstall, self.nomCommune, self.location))
+    def display_installation(self):
+        print("{0}, {1}, {2}".format(self.nomInstall, self.numInstall, self.nomCommune))
 
 class Equipement :
-    def __int__(self,codeINSEE,nomCommune,equipID,codeAct,nomAct,typeAct):
-        self.codeINSEE = codeINSEE
-        self.nomCommune = nomCommune
-        self.equipID = equipID
-        self.codeAct = codeAct
+    def __int__(self, numInstall, numEqu, nomEqu, nomBat, nbPTribune,accessH, dateMaj):
+        self.numInstall = numInstall
+        self.numEqu = numEqu
+        self.nomEqu = nomEqu
+        self.nomBat = nomBat
+        self.nbPTribune = nbPTribune
+        self.accessH = accessH
+        self.dateMaj = dateMaj
+    def display_equip(self):
+        print("{0}, {1}, {2}".format(self.numInstall, self.numEqu, self.nomEqu))
+
+class Activite :
+    def __int__(self, numEqu, numAct, nomAct, typeAct):
+        self.numEqu = numEqu
+        self.numAct = numAct
         self.nomAct = nomAct
         self.typeAct = typeAct
 
-def importEquipement(nomFichier):
-    fichier=csv.reader(codecs.open(nomFichier,"r","utf-8"))
-    for row in fichier:
-        #install = Installation(row[1])
-        print(row[0], row[1])
+    def display_act(self):
+        print("{0}, {1}, {2}".format(self.numAct, self.nomAct, self.typeAct))
 
-importEquipement("installation1.csv")
+def importInstallation(nomFichier):
+    fichier=csv.DictReader(codecs.open(nomFichier,"r","utf-8"))
+    for row in fichier:
+        install = Installation(row['Nom usuel de l\'installation'], row['Numéro de l\'installation'], row['Nom de la commune'], row['Code postal'], row['Nom du lieu dit'],\
+            row['Numero de la voie'], row['Nom de la voie'], row['Longitude'], row['Latitude'], row['Accessibilité handicapés à mobilité réduite'], row['Nombre total de place de parking'])
+        print(install.display_installation())
+
+def importEquipement(nomFichier):
+    fichier=csv.DictReader(codecs.open(nomFichier,"r","utf-8"))
+    for row in fichier:
+        equip = Equipement(row['InsNumeroInstall'], row['EquipementId'], row['EquNom'], row['EquNomBatiment'], row['EquNbPlaceTribune'],\
+            row['EquAccesHandisAucun'], row['EquDateMaj'])
+        print(equip.display_equip())
+
+def importActivites(nomFichier):
+    fichier=csv.DictReader(codecs.open(nomFichier,"r","utf-8"))
+    for row in fichier:
+        act = Activite(row['EquipementId'], row['ActCode'], row['ActLib'], row['ActNivLib'])
+        print(act.display_equip())
