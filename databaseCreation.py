@@ -14,8 +14,6 @@ requete_equipements = """CREATE TABLE equipements (id integer PRIMARY KEY,
           EquNomBatiment text,
           EquNbPlaceTribune text,
           EquAccesHandisAucun text,
-          EquGpsX text,
-          EquGpsY text,
           EquDateMaj text)"""
 c.execute(requete_equipements)
 
@@ -30,7 +28,7 @@ c.execute(requete_activite)
 
 # creation de la table installation_table
 c.execute("DROP TABLE IF EXISTS equipements_activite")
-requete_installation_table = """CREATE TABLE equipements_activite (id integer PRIMARY KEY,
+requete_installation_table = """CREATE TABLE installations (id integer PRIMARY KEY,
           nomInstall text,
           numInstall text,
           nomCommune text,
@@ -44,22 +42,6 @@ requete_installation_table = """CREATE TABLE equipements_activite (id integer PR
           nbPlacesP text)"""
 c.execute(requete_installation_table)
 
-
 conn.commit()
 
 print("Tables 'equipements', 'activite' et 'equipements_activite' crées avec succès !")
-# insert une entrée
-
-#insert_query = "INSERT INTO t_table(code, label) VALUES (?, ?)"
-#c.execute(insert_query, (1, "test"))
-
-#conn.commit()
-
-#SELECT sur la table
-
-#c.execute("SELECT code, label FROM t_table")
-
-#for row in c:
-#   print(row)
-
-#conn.close()  # ferme la connexion à la base de données
