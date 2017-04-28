@@ -60,11 +60,6 @@ def importInstallation(nomFichier):
         c.execute(insert_query, (install.nomInstall, install.numInstall, install.nomCommune, install.cp, install.nomLieuD, install.numVoie, install.nomVoie,\
                                  install.longitude, install.latitude, install.accessH, install.nbPlacesP))
     conn.commit()
-    """"# Vérification données bien ajoutés dans la BD
-    c.execute("SELECT * FROM installations")
-    # Affichage dans la console
-    for row in c:
-        print(row)"""
     conn.close()
 
 
@@ -85,11 +80,6 @@ def importEquipement(nomFichier):
         #Insertion dans la BD de l'équipement
         c.execute(insert_query, (equip.numInstall, equip.numEqu, equip.nomEqu, equip.nomBat, equip.nbPTribune, equip.accessH, equip.dateMaj))
     conn.commit()
-    """# Vérification données bien ajoutés dans la BD
-    c.execute("SELECT * FROM equipements")
-    # Affichage dans la console
-    for row in c:
-        print(row)"""
     conn.close()
 
 def importActivites(nomFichier):
@@ -106,11 +96,6 @@ def importActivites(nomFichier):
         # Insertion dans la BD de l'équipement
         c.execute(insert_query, (act.numEqu, act.numAct, act.nomAct, act.typeAct))
     conn.commit()
-    """#Vérification données bien ajoutés dans la BD
-    c.execute("SELECT * FROM activite")
-    Affichage dans la console
-    for row in c:
-        print(row)"""
     conn.close()
 
 print("**** IMPORTATION DES INSTALLATIONS ****")
