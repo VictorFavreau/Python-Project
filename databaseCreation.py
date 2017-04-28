@@ -29,7 +29,7 @@ requete_activite = """CREATE TABLE activite (id integer PRIMARY KEY,
 c.execute(requete_activite)
 
 # creation de la table installation_table
-c.execute("DROP TABLE IF EXISTS installation_table")
+c.execute("DROP TABLE IF EXISTS equipements_activite")
 requete_installation_table = """CREATE TABLE equipements_activite (id integer PRIMARY KEY,
           nomInstall text,
           numInstall text,
@@ -47,6 +47,7 @@ c.execute(requete_installation_table)
 
 conn.commit()
 
+print("Tables 'equipements', 'activite' et 'equipements_activite' crées avec succès !")
 # insert une entrée
 
 #insert_query = "INSERT INTO t_table(code, label) VALUES (?, ?)"
@@ -54,11 +55,11 @@ conn.commit()
 
 #conn.commit()
 
-# SELECT sur la table
+#SELECT sur la table
 
 #c.execute("SELECT code, label FROM t_table")
 
 #for row in c:
-#    print(row)
+#   print(row)
 
 #conn.close()  # ferme la connexion à la base de données
