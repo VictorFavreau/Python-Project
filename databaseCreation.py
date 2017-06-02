@@ -8,20 +8,20 @@ c = conn.cursor()
 # creation de la table equipements
 c.execute("DROP TABLE IF EXISTS equipements")
 requete_equipements = """CREATE TABLE equipements (id integer PRIMARY KEY,
-          InsNumeroInstall text,
-          EquipementId text,
+          InsNumeroInstall integer,
+          EquipementId integer,
           EquNom text,
           EquNomBatiment text,
-          EquNbPlaceTribune text,
-          EquAccesHandisAucun text,
-          EquDateMaj text)"""
+          EquNbPlaceTribune integer,
+          EquAccesHandisAucun integer,
+          EquDateMaj date)"""
 c.execute(requete_equipements)
 
 # creation de la table activite
 c.execute("DROP TABLE IF EXISTS activite")
 requete_activite = """CREATE TABLE activite (id integer PRIMARY KEY,
-          equipID text,
-          codeAct text,
+          equipID integer,
+          codeAct integer,
           nomAct text,
           typeAct text)"""
 c.execute(requete_activite)
@@ -30,16 +30,16 @@ c.execute(requete_activite)
 c.execute("DROP TABLE IF EXISTS equipements_activite")
 requete_installation_table = """CREATE TABLE installations (id integer PRIMARY KEY,
           nomInstall text,
-          numInstall text,
+          numInstall integer,
           nomCommune text,
-          cdp text,
+          cdp integer,
           nomLieuDit text,
-          numVoie text,
+          numVoie integer,
           nomVoie text,
-          longitude text,
-          latitude text,
-          accessH text,
-          nbPlacesP text)"""
+          longitude real,
+          latitude real,
+          accessH integer,
+          nbPlacesP integer)"""
 c.execute(requete_installation_table)
 
 conn.commit()
