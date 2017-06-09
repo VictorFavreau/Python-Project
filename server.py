@@ -5,7 +5,7 @@ from dico_villes import *
 
 
 """
-    Redirection des liens de navigation.
+    Redirect navigation links
 """
 @route('/')
 def get_index():
@@ -16,7 +16,9 @@ def get_index():
 def get_index():
     return template('webpage/index')
 
-
+"""
+    Redirect navigation links
+"""
 @route('/city', method='POST')
 def get_city():
     lv_cdp   = request.forms.get('zip')
