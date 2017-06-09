@@ -45,9 +45,6 @@ def get_search(select_activity):
     else:
         liste_install = dico_installActiv(recup_string[0], recup_string[1])
 
-
-    print(liste_install)
-
     return template('webpage/search', liste_install=liste_install)
 
 @route("/webpage/css/<filename>")
