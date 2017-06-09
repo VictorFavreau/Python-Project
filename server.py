@@ -4,9 +4,9 @@ from bottle import get, post, request, run
 from dico_villes import *
 
 
-#############################################################
-# CREATING NAVIGATION ROUTE                                 #
-#############################################################
+"""
+    Redirection des liens de navigation.
+"""
 @route('/')
 def get_index():
     return template('webpage/index')
@@ -19,12 +19,11 @@ def get_index():
 
 @route('/city', method='POST')
 def get_city():
-    lv_cdp = request.forms.get('zip')
+    lv_cdp   = request.forms.get('zip')
+    city_dic = city_dictionary(lv_cdp)
 
-    liste_ville = dico_villes(lv_cdp)
-
-    if(len(liste_ville) != 0):
-        return template('webpage/city', zip=lv_cdp, liste_ville=liste_ville)
+    if(len(city_dic) != 0):
+        return template('webpage/city', zip=lv_cdp, liste_ville=city_dic)
     else:
         return template('webpage/index')
 
@@ -32,50 +31,48 @@ def get_city():
 @route('/activity', method='POST')
 def get_activity():
 
-    lv_cdp         = request.forms.get('zip')
-    lv_commune     = request.forms.get('select_ville')
-    lv_commune     = lv_commune.encode('ISO-8859-15').decode()
+    zip_code = request.forms.get('zip')
+    city     = request.forms.get('select_ville')
+    city     = city.encode('ISO-8859-15').decode()
 
+    activity_list = city_activities_dictionary(city)
 
-
-    liste_activite = dico_activitesVille(lv_commune)
-
-    return template('webpage/activity', zip=lv_cdp, commune=lv_commune, liste_activites=liste_activite)
+    return template('webpage/activity', zip=zip_code, commune=city, liste_activites=activity_list)
 
 
 @route('/search', method='POST')
 def get_search():
 
-    lv_commune  = request.forms.get('ville')
-    lv_commune = lv_commune.encode('ISO-8859-15').decode()
-    lc_activite = request.forms.get('select_activite')
+    city     = request.forms.get('ville')
+    city     = city.encode('ISO-8859-15').decode()
+    activity = request.forms.get('select_activite')
 
-    if(lc_activite == "Toutes"):
-        liste_install = dico_installations(lv_commune)
+    if(activity == "Toutes"):
+        installation_list = installation_dictionary(city)
     else:
-        liste_install = dico_installActiv(lv_commune, lc_activite)
+        installation_list = installations_activity_list(city, activity)
 
-    print("liste: " + liste_install)
-
-
-    return template('webpage/search', liste_install=liste_install)
+    print("liste: " + installation_list)
 
 
+    return template('webpage/search', liste_install=installation_list)
 
-#############################################################
-# CREATING ROUTES FOR THE TEMPLATE                          #
-#############################################################
+
+
+"""
+    Redirecting template links.
+"""
 
 @route("/webpage/css/<filename>")
 def style(filename):
     return static_file(filename, root='webpage/css')
 
 @route("/webpage/img/<filename>")
-def images(filename):
+def pict(filename):
     return static_file(filename, root='webpage/img')
 
 @route("/webpage/img/base/<filename>")
-def images_base(filename):
+def pict_base(filename):
     return static_file(filename, root='webpage/img/base')
 
 @route("/webpage/js/<filename>")

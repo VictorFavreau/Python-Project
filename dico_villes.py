@@ -1,34 +1,50 @@
 import sqlite3
 import json
 
-# Fonction qui récupère toutes les villes disponible avec ce code postale
-# Parametre cdp : Code postal choisit dont on souhaite les villes
-# Retourne une liste composé de toutes les villes de ce code postale avec les villes de ce code postal
 
-def dico_villes(cdp):
-    #Ouverture de la connexion à la BD
+"""
+       Function retrieving all cities associated with a zip code.
+
+        :return: returns a list of city
+"""
+def city_dictionary(zip):
+    """
+            Opening the database connection.
+    """
     conn = sqlite3.connect("python_project.db")
     c = conn.cursor()
-    #Création dictionnaire des villes avec comme clé le code postal et la valeur le nom de la ville
-    ville = []
-    #On récupère dans la table Installations tous les cdp et nom de villes dans la BD
-    requete = """SELECT DISTINCT nomCommune FROM installations WHERE cdp = ? ORDER BY cdp, nomCommune"""
-    c.execute(requete,(cdp,))
+
+    """
+                Creation dictionary of the cities with as key the postal code and as value the name of the city.
+    """
+    city = []
+
+    request = """SELECT DISTINCT nomCommune FROM installations WHERE cdp = ? ORDER BY cdp, nomCommune"""
+    c.execute(request,(zip,))
     for row in c :
-        ville.append(row[0])
+        city.append(row[0])
     conn.close()
-    return ville
 
-# Fonction qui récupère toutes les installations d'une ville
-# Parametre nomCommune : Nom de la commune demandée
-# Retourne un dico composé de toutes les installations dans cette ville avec le numéro et le nom d'installation
-def dico_installations(nomCommune):
-    # Ouverture de la connexion à la BD
+    return city
+
+
+"""
+        Function that returns a list of Installations based on a city name in a JSON format.
+
+        :return: Installation dictionary (JSON format)
+"""
+def installation_dictionary(nomCommune):
+    """
+        Opening the database connection.
+    """
     conn = sqlite3.connect("python_project.db")
     c = conn.cursor()
-    # Création dictionnaire des villes avec comme clé le code postal et la valeur le nom de la ville
+
+    """
+        Creation dictionary of Installations with as key the Installation number and as value the Installation name.
+    """
     dico_install = {}
-    # On récupère dans la table Installations tous les cdp et nom de villes dans la BD
+
     requete = """SELECT DISTINCT i.numInstall, i.nomInstall, i.nomCommune, i.cdp, i.nomLieuDit, i.numVoie, i.nomVoie,
                     i.accessH, i.nbPlacesP, e.EquX, e.EquY, i.longitude, i.latitude FROM equipements As e 
                     INNER JOIN installations As i ON e.InsNumeroInstall=i.numInstall AND i.nomCommune=?"""
@@ -51,79 +67,99 @@ def dico_installations(nomCommune):
         liste_install.insert(i, dico_install)
         i = i + 1
     conn.close()
-    # Conversion en JSON
+    """
+        Converting the list to JSON format.
+    """
     json_data = json.dumps(liste_install)
     return json_data
 
-# Fonction qui récupère toutes les activités d'une installation
-# Parametre numInstall : Numéro de l'installation dont l'on souhaite connaître les activités
-# Retourne un dico composé de toutes les activités de cette installation avec le code et le nom de l'activité
-def dico_activites(numInstall):
-    # Ouverture de la connexion à la BD
+"""
+        Function that returns all activities associated with an Installation.
+
+        :return: Activity dictionary
+"""
+def activity_dictionary(install_id):
+    """
+            Opening the database connection.
+    """
     conn = sqlite3.connect("python_project.db")
     c = conn.cursor()
     c1 = conn.cursor()
-    # Création dictionnaire des villes avec comme clé le code postal et la valeur le nom de la ville
-    dico_activites = {}
-    #On récupère le numéro d'équipement pour récupérer les activités
-    requete = """SELECT EquipementId FROM equipements WHERE InsNumeroInstall =?"""
-    requete2 = """SELECT DISTINCT codeAct, nomAct FROM activite WHERE equipID =? ORDER BY nomAct"""
-    c.execute(requete,(numInstall,))
+    """
+            Creation dictionary of Activity with as key the Activity number and as value the Activity name.
+    """
+    activity_dictionary = {}
+
+    first_request   = """SELECT EquipementId FROM equipements WHERE InsNumeroInstall =?"""
+    second_request  = """SELECT DISTINCT codeAct, nomAct FROM activite WHERE equipID =? ORDER BY nomAct"""
+    c.execute(first_request,(install_id,))
     for row in c :
-        codeEquip = row[0]
-        # On récupère dans la table Installations tous les cdp et nom de villes dans la BD
-        c1.execute(requete2,(codeEquip,))
+        equipment_code = row[0]
+
+        c1.execute(second_request,(equipment_code,))
         for row1 in c1:
-            dico_activites[row1[0]] = row1[1]
-    conn.close()
-    return dico_activites
+            activity_dictionary[row1[0]] = row1[1]
 
-# Fonction qui récupère toutes les activités d'une ville
-# Parametre nomCommune : Nom de la commune dont l'on souhaite connaître les activités
-# Retourne un dico composé de toutes les activités de cette ville
-def dico_activitesVille(nomCommune):
+    conn.close()
+    return activity_dictionary
+
+"""
+        Function that returns all the activities of a city.
+
+        :return: returns nothing
+"""
+def city_activities_dictionary(city_name):
+    """
+                Opening the database connection.
+    """
     conn = sqlite3.connect("python_project.db")
-    dico_activitesVille = {}
+    city_activity_dic = {}
     c = conn.cursor()
-    requete = """SELECT DISTINCT a.codeAct, a.nomAct FROM activite As a INNER JOIN equipements As e ON a.equipID=e.EquipementID INNER JOIN installations As i ON e.InsNumeroInstall=i.numInstall AND i.nomCommune=?"""
-    c.execute(requete, (nomCommune,))
+    request = """SELECT DISTINCT a.codeAct, a.nomAct FROM activite As a INNER JOIN equipements As e ON a.equipID=e.EquipementID INNER JOIN installations As i ON e.InsNumeroInstall=i.numInstall AND i.nomCommune=?"""
+    c.execute(request, (city_name,))
     for row in c:
-        dico_activitesVille[row[0]] = row[1]
+        city_activity_dic[row[0]] = row[1]
 
     conn.close()
-    return dico_activitesVille
+    return city_activity_dic
 
-# Fonction qui récupère toutes les installations possédant une activitée donnée d'une ville
-# Parametre nomCommune : Nom de la commune dont l'on souhaite connaître les installations
-#           nomActivitee : Nom de l'activitée dont l'on souhaite connaître les installations qui l'a propose
-# Retourne un dico composé de toutes les installations d'une ville qui propose cette activitée
-def dico_installActiv(nomCommune, nomActivitee):
-    # Ouverture de la connexion à la BD
+
+"""
+        Function returning all installations of a given city according to the activity chosen.
+
+        :return: returns an Activity dictionary in JSON format
+"""
+def installations_activity_list(city_name, activity_name):
+    """
+                Opening the database connection.
+    """
     conn = sqlite3.connect("python_project.db")
     c = conn.cursor()
 
-    requete = """SELECT DISTINCT i.numInstall, i.nomInstall, i.nomCommune, i.cdp, i.nomLieuDit, i.numVoie, i.nomVoie,
+    request = """SELECT DISTINCT i.numInstall, i.nomInstall, i.nomCommune, i.cdp, i.nomLieuDit, i.numVoie, i.nomVoie,
                     i.accessH, i.nbPlacesP, e.EquX, e.EquY, i.longitude, i.latitude FROM equipements As e INNER JOIN activite As a ON e.EquipementId=a.equipID 
                     AND a.nomAct=? INNER JOIN installations As i ON e.InsNumeroInstall=i.numInstall AND i.nomCommune=?"""
-    c.execute(requete,(nomActivitee, nomCommune))
+    c.execute(request,(activity_name, city_name))
     i=0
     liste_install = []
     for row in c:
-        dico_installActiv = {}
-        dico_installActiv["numInstall"] = row[0]
-        dico_installActiv["nomInstall"] = row[1]
-        dico_installActiv["nomCommune"] = row[2]
-        dico_installActiv["cdp"] = row[3]
-        dico_installActiv["nomLieuDit"] = row[4]
-        dico_installActiv["numVoie"] = row[5]
-        dico_installActiv["nomVoie"] = row[6]
-        dico_installActiv["accessH"] = row[7]
-        dico_installActiv["nbPlacesP"] = row[8]
-        dico_installActiv["longitude"] = row[9]
-        dico_installActiv["latitude"] = row[10]
-        liste_install.insert(i,dico_installActiv)
+        installation_activity_dic = {}
+        installation_activity_dic["numInstall"] = row[0]
+        installation_activity_dic["nomInstall"] = row[1]
+        installation_activity_dic["nomCommune"] = row[2]
+        installation_activity_dic["cdp"] = row[3]
+        installation_activity_dic["nomLieuDit"] = row[4]
+        installation_activity_dic["numVoie"] = row[5]
+        installation_activity_dic["nomVoie"] = row[6]
+        installation_activity_dic["accessH"] = row[7]
+        installation_activity_dic["nbPlacesP"] = row[8]
+        installation_activity_dic["longitude"] = row[9]
+        installation_activity_dic["latitude"] = row[10]
+        liste_install.insert(i,installation_activity_dic)
         i=i+1
     conn.close()
-    #Conversion en JSON
+    """
+            Converting the list to JSON format.
+    """
     json_data = json.dumps(liste_install)
     return json_data
