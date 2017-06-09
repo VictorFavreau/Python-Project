@@ -143,7 +143,7 @@
                             data-elementdelay="0"
                             data-endelementdelay="0"
                             data-endspeed="300">
-                            <a href='/index' id="btn_new" class="btn v-btn v-second-light"><i class="fa fa-play"></i> NOUVELLE RECHERCHE </a>
+                            <a href='/index' id="btn_new" class="btn v-btn v-second-light"><i class="fa fa-refresh"></i> NOUVELLE RECHERCHE </a>
 
                         </div>
 
