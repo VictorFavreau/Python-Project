@@ -1,6 +1,6 @@
 import json
 import unittest
-from dico_villes import *
+from SearchData import *
 
 
 class UnityTestSearch(unittest.TestCase):
