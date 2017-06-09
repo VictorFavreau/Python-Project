@@ -99,7 +99,12 @@
 								<div class="v-wrapper">
 
                                     <div id="map_canvas" style="height:450px;" class="google-map mt-none mb-none" action="/search"></div>
-                <div class="row">
+
+                                    <div class="container">
+                <div class="v-spacer col-sm-12 v-height-mini"></div>
+            </div>
+
+                                    <div class="row">
 
                     <div class="v-content-wrapper">
 
@@ -171,7 +176,7 @@
         // check DOM Ready
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map_canvas'), {
-                zoom: 4,
+                zoom: 9,
                 center: new google.maps.LatLng(47.1964374,-1.5731989),
                 clickableIcons: false
             });
