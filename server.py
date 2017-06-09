@@ -14,12 +14,13 @@ def get_index():
 def get_index():
     return template('webpage/index')
 
-@route('/city/<zip>')
-def get_city(zip):
-    global lv_cdp
-    lv_cdp = zip
 
-    liste_ville = dico_villes(zip)
+
+@route('/city', method='POST')
+def get_city():
+    lv_cdp = request.forms.get('zip')
+
+    liste_ville = dico_villes(lv_cdp)
 
     if(len(liste_ville) != 0):
         return template('webpage/city', zip=lv_cdp, liste_ville=liste_ville)
@@ -27,25 +28,34 @@ def get_city(zip):
         return template('webpage/index')
 
 
-@route('/activity/<select_ville>')
-def get_activity(select_ville):
+@route('/activity', method='POST')
+def get_activity():
 
-    recup_string = select_ville.split("_")
-    liste_activite = dico_activitesVille(recup_string[1])
+    lv_cdp = request.forms.get('zip')
+    lv_ccommune = request.forms.get('select_ville')
+    print(lv_ccommune)
 
-    return template('webpage/activity', zip=recup_string[0], commune=recup_string[1], liste_activites=liste_activite)
 
-@route('/search/<select_activity>')
-def get_search(select_activity):
+    liste_activite = dico_activitesVille(lv_ccommune)
 
-    recup_string = select_activity.split("_")
+    return template('webpage/activity', zip=lv_cdp, commune=lv_ccommune, liste_activites=liste_activite)
 
-    if(recup_string[1] == "Toutes"):
-        liste_install = dico_installations(recup_string[0])
+@route('/search', method='POST')
+def get_search():
+
+    lv_cdp = request.forms.get('zip')
+    lv_ccommune = request.forms.get('select_ville')
+    lv_ccommune.encode('utf-8')
+
+    if(lv_ccommune == "Toutes"):
+        liste_install = dico_installations(lv_cdp)
     else:
-        liste_install = dico_installActiv(recup_string[0], recup_string[1])
+        liste_install = dico_installActiv(lv_cdp, lv_ccommune)
 
     return template('webpage/search', liste_install=liste_install)
+
+
+
 
 @route("/webpage/css/<filename>")
 def style(filename):

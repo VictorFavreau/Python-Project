@@ -53,6 +53,7 @@ def importInstallation(nomFichier):
     conn = sqlite3.connect("python_project.db")
     c = conn.cursor()
 
+
     # Preparation of the prepared request
     insert_query = """INSERT INTO installations(nomInstall, numInstall, nomCommune, cdp, nomLieuDit, numVoie, nomVoie,
                         longitude, latitude, accessH, nbPlacesP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""

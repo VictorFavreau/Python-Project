@@ -47,6 +47,7 @@
 
         <!--Set your own slider options. Look at the v_RevolutionSlider() function in 'theme-core.js' file to see options-->
         <div class="home-slider-wrap fullwidthbanner-container" >
+            <form id="formulaire" data-toggle="validator" role="form" action="/search" method="POST">
             <div class="v-rev-slider" data-slider-options='{ "fullScreen":"on", "fullScreenOffsetContainer": ".fw-slider-spacer" }' style="background-color: #21C2F8;">
                 <ul>
                     <!-- SLIDE  -->
@@ -134,7 +135,7 @@
                             data-elementdelay="0"
                             data-endelementdelay="0"
                             data-endspeed="300">
-                            <a href='/search' id="bouton_search" class="btn v-btn v-second-light"><i class="fa fa-search"></i> RECHERCHER</a>
+                            <button type="submit" id="btn_search" class="btn v-btn v-second-light"><i class="fa fa-play"></i> SUIVANT</button>
                         </div>
 
 						<div class="tp-caption sfl stl"
@@ -156,7 +157,7 @@
 
                 </ul>
             </div>
-
+            </form>
             <div class="shadow-right"></div>
 		</div>
 
@@ -184,16 +185,6 @@
 
     <script src="../webpage/js/theme-core.js"></script>
 
-    <script>
-		$(document).ready(function() {
-
-			$('#bouton_search').click(function () {
-                $(this).attr('href', '/search/' + $('#ville').val() + "_" +$('#select_activite').val());
-            });
-
-		});
-
-	</script>
 
 
 

@@ -18,6 +18,7 @@ lvc_equipment_request = """CREATE TABLE equipements (id integer PRIMARY KEY,
 c.execute(lvc_equipment_request)
 
 
+
 # Creation of the "activite" table
 c.execute("DROP TABLE IF EXISTS activite")
 lvc_activity_request = """CREATE TABLE activite (id integer PRIMARY KEY,

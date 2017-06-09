@@ -47,7 +47,9 @@
 
         <!--Set your own slider options. Look at the v_RevolutionSlider() function in 'theme-core.js' file to see options-->
         <div class="home-slider-wrap fullwidthbanner-container" >
+            <form id="formulaire" data-toggle="validator" role="form" action="/city" method="POST">
             <div class="v-rev-slider" data-slider-options='{ "fullScreen":"on", "fullScreenOffsetContainer": ".fw-slider-spacer" }' style="background-color: #21C2F8;">
+
                 <ul>
                     <!-- SLIDE  -->
                     <li data-transition="fade" data-slotamount="7" data-masterspeed="1000">
@@ -100,7 +102,7 @@
 							<div class="row">
 								<div class="col-md-4 form-group">
 
-									<input id="zip" type="text" placeholder="Zip" class="form-control" required="required" maxlength="5">
+									<input id="zip" name="zip" type="text" placeholder="Zip" class="form-control" required="required" maxlength="5">
 								</div>
 
 								<div id="div_ville" class="col-md-8">
@@ -132,7 +134,7 @@
                             data-elementdelay="0"
                             data-endelementdelay="0"
                             data-endspeed="300">
-                            <a href='#' id="btn_suivant" class="btn v-btn v-second-light"><i class="fa fa-play"></i> SUIVANT</a>
+                            <button type="submit" id="btn_suivant" class="btn v-btn v-second-light"><i class="fa fa-play"></i> SUIVANT</button>
                         </div>
 
 
@@ -140,8 +142,9 @@
 
 
                 </ul>
-            </div>
 
+            </div>
+            </form>
             <div class="shadow-right"></div>
 		</div>
 
@@ -176,11 +179,6 @@
 			$("#btn_suivant").toggle();
 
 
-			$('#btn_suivant').click(function () {
-
-
-                $(this).attr('href', '/city/' +$('#zip').val());
-            });
 
 			$('#zip').bind('input', function() {
 				var size = document.getElementById("zip").value.length;

@@ -48,6 +48,7 @@
 
         <!--Set your own slider options. Look at the v_RevolutionSlider() function in 'theme-core.js' file to see options-->
         <div class="home-slider-wrap fullwidthbanner-container" >
+            <form id="formulaire" data-toggle="validator" role="form" action="/activity" method="POST">
             <div class="v-rev-slider" data-slider-options='{ "fullScreen":"on", "fullScreenOffsetContainer": ".fw-slider-spacer" }' style="background-color: #21C2F8;">
                 <ul>
                     <!-- SLIDE  -->
@@ -100,12 +101,12 @@
 							<div class="row">
 								<div class="col-md-4 form-group">
 
-									<input id="zip" type="text" placeholder="Zip" class="form-control" maxlength="5" value="{{zip}} " readonly="readonly">
+									<input id="zip" name="zip" type="text" placeholder="Zip" class="form-control" maxlength="5" value="{{zip}} " readonly="readonly">
 								</div>
 
 								<div id="div_ville" class="col-md-8">
                                     <!--<select class="form-control" disabled="">-->
-                                    <select id="select_ville" class="form-control">
+                                    <select id="select_ville" name="select_ville" class="form-control">
 
                                         % for ville in liste_ville:
                                             <option>{{ville}}</option>
@@ -128,7 +129,7 @@
                             data-elementdelay="0"
                             data-endelementdelay="0"
                             data-endspeed="300">
-                            <a href='#' id="btn_suivant" class="btn v-btn v-second-light"><i class="fa fa-play"></i> SUIVANT </a>
+                            <button type="submit" id="btn_suivant" class="btn v-btn v-second-light"><i class="fa fa-play"></i> SUIVANT</button>
                         </div>
 
                         <div class="tp-caption sfl stl"
@@ -142,7 +143,8 @@
                             data-elementdelay="0"
                             data-endelementdelay="0"
                             data-endspeed="300">
-                            <a href='/index' id="btn_new" class="btn v-btn v-second-light"><i class="fa fa-refresh"></i> NOUVELLE RECHERCHE</a>
+                            <a href='#' id="btn_new" class="btn v-btn v-second-light"><i class="fa fa-play"></i> NOUVELLE RECHERCHE </a>
+
                         </div>
 
 
@@ -151,7 +153,7 @@
 
                 </ul>
             </div>
-
+            </form>
             <div class="shadow-right"></div>
 		</div>
 
@@ -184,7 +186,6 @@
 
 			$('#btn_suivant').click(function () {
 
-                $(this).attr('href', '/activity/' +{{zip}} + "_" +$('#select_ville').val());
             });
 
 		});
