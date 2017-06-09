@@ -1,13 +1,13 @@
 import sqlite3
 
-# ouvre la connexion à la base de données
-
+# open the database connection
 conn = sqlite3.connect("python_project.db")
 c = conn.cursor()
 
-# creation de la table equipements
+
+# Creation of the "equipements" table
 c.execute("DROP TABLE IF EXISTS equipements")
-requete_equipements = """CREATE TABLE equipements (id integer PRIMARY KEY,
+lvc_equipment_request = """CREATE TABLE equipements (id integer PRIMARY KEY,
           InsNumeroInstall integer,
           EquipementId integer,
           EquNom text,
@@ -15,20 +15,22 @@ requete_equipements = """CREATE TABLE equipements (id integer PRIMARY KEY,
           EquNbPlaceTribune integer,
           EquAccesHandisAucun integer,
           EquDateMaj date)"""
-c.execute(requete_equipements)
+c.execute(lvc_equipment_request)
 
-# creation de la table activite
+
+# Creation of the "activite" table
 c.execute("DROP TABLE IF EXISTS activite")
-requete_activite = """CREATE TABLE activite (id integer PRIMARY KEY,
+lvc_activity_request = """CREATE TABLE activite (id integer PRIMARY KEY,
           equipID integer,
           codeAct integer,
           nomAct text,
           typeAct text)"""
-c.execute(requete_activite)
+c.execute(lvc_activity_request)
 
-# creation de la table installation_table
+
+# Creation of the "equipements_activite" table
 c.execute("DROP TABLE IF EXISTS equipements_activite")
-requete_installation_table = """CREATE TABLE installations (id integer PRIMARY KEY,
+lvc_installation_bd = """CREATE TABLE installations (id integer PRIMARY KEY,
           nomInstall text,
           numInstall integer,
           nomCommune text,
@@ -40,8 +42,6 @@ requete_installation_table = """CREATE TABLE installations (id integer PRIMARY K
           latitude real,
           accessH integer,
           nbPlacesP integer)"""
-c.execute(requete_installation_table)
+c.execute(lvc_installation_bd)
 
 conn.commit()
-
-print("Tables 'equipements', 'activite' et 'equipements_activite' crées avec succès !")
