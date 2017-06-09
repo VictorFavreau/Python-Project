@@ -23,7 +23,7 @@ class Installation :
 
 class Equipement :
     # Initialization of the "Equipement" class
-    def __init__(self, numInstall, numEqu, nomEqu, nomBat, nbPTribune, accessH, dateMaj):
+    def __init__(self, numInstall, numEqu, nomEqu, nomBat, nbPTribune, accessH, dateMaj, equX, equY):
         self.numInstall = numInstall
         self.numEqu = numEqu
         self.nomEqu = nomEqu
@@ -31,6 +31,8 @@ class Equipement :
         self.nbPTribune = nbPTribune
         self.accessH = accessH
         self.dateMaj = dateMaj
+        self.equX = equX
+        self.equY = equY
 
     # Displays the current "Equipement" object
     def display_equip(self):
@@ -79,16 +81,17 @@ def importEquipement(nomFichier):
     c = conn.cursor()
     # Preparation of the prepared request
     insert_query = """INSERT INTO equipements(InsNumeroInstall, EquipementId, EquNom, EquNomBatiment, 
-                        EquNbPlaceTribune, EquAccesHandisAucun, EquDateMaj)
-                        VALUES (?, ?, ?, ?, ?, ?, ?)"""
+                            EquNbPlaceTribune, EquAccesHandisAucun, EquDateMaj, EquX, EquY)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
     # Read CSV file line by line
     fichier = csv.DictReader(codecs.open(nomFichier, "r", "utf-8"))
     for row in fichier:
         # For each row, a new Equipement object is created
-        equip = Equipement(row['InsNumeroInstall'], row['EquipementId'], row['EquNom'], row['EquNomBatiment'], row['EquNbPlaceTribune'], \
-            row['EquAccesHandisAucun'], row['EquDateMaj'])
+        equip = Equipement(row['InsNumeroInstall'], row['EquipementId'], row['EquNom'], row['EquNomBatiment'],
+                           row['EquNbPlaceTribune'], \
+                           row['EquAccesHandisAucun'], row['EquDateMaj'], row['EquGpsX'], row['EquGpsY'])
         #insert the Equipement into the database
-        c.execute(insert_query, (equip.numInstall, equip.numEqu, equip.nomEqu, equip.nomBat, equip.nbPTribune, equip.accessH, equip.dateMaj))
+        c.execute(insert_query, (equip.numInstall, equip.numEqu, equip.nomEqu, equip.nomBat, equip.nbPTribune, equip.accessH, equip.dateMaj, equip.equX, equip.equY))
     conn.commit()
     conn.close()
 

@@ -43,14 +43,17 @@ def get_activity():
 @route('/search', method='POST')
 def get_search():
 
-    lv_cdp = request.forms.get('zip')
-    lv_ccommune = request.forms.get('select_ville')
-    lv_ccommune.encode('utf-8')
+    lv_commune = request.forms.get('ville')
+    lc_activite = request.forms.get('select_activite')
 
-    if(lv_ccommune == "Toutes"):
-        liste_install = dico_installations(lv_cdp)
+
+
+
+    if(lc_activite == "Toutes"):
+        liste_install = dico_installations(lv_commune)
     else:
-        liste_install = dico_installActiv(lv_cdp, lv_ccommune)
+        liste_install = dico_installActiv(lv_commune, lc_activite)
+
 
     return template('webpage/search', liste_install=liste_install)
 

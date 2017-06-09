@@ -100,11 +100,11 @@
 							<div class="row">
 								<div class="col-md-4 form-group">
 
-									<input id="zip" type="text" placeholder="Zip" class="form-control" value="{{zip}}" readonly="readonly">
+									<input id="zip" name="zip" type="text" placeholder="Zip" class="form-control" value="{{zip}}" readonly="readonly">
 								</div>
 
 								<div class="col-md-8">
-                                    <input id="ville" type="text" placeholder="Ville" class="form-control" value="{{commune}}" readonly="readonly">
+                                    <input id="ville" name="ville" type="text" placeholder="Ville" class="form-control" value="{{commune}}" readonly="readonly">
 
 								</div>
                             </div>
@@ -112,7 +112,7 @@
                             <div class="row">
 								<div class="col-md-12">
 
-									<select id="select_activite" class="form-control" >
+									<select id="select_activite" name="select_activite" class="form-control" >
                                         <option>Toutes</option>
                                         % for activite in liste_activites.values():
                                             <option>{{activite}}</option>
