@@ -91,10 +91,82 @@
                 <div class="row">
                     <div class="v-page-wrap no-top-spacing no-bottom-spacing">
 						<div class="row fw-row">
+
+
+
+
 							<div class="v-gmap-widget fullscreen-map col-sm-12">
 								<div class="v-wrapper">
+                                        <div id="googlemapsFullWidth" style="height:450px;"
+                                             class="google-map mt-none mb-none"></div>
+                                        <script>
+                                            %
+                                                var installations = []
+                                                var i = 0
+                                                for install in installation :
+                                                   installations[i]=install
+                                            % end
+                                            alert(installations[1].nomInstall)
 
-                                    <div id="map_canvas" style="height:450px;" class="google-map mt-none mb-none" action="/search"></div>
+                                            function initMap() {
+                                                var map = new google.maps.Map(document.getElementById('googlemapsFullWidth'), {
+                                                    zoom: 4,
+                                                    center: new google.maps.LatLng(47.1964374,-1.5731989),
+                                                    clickableIcons: false
+                                                });
+                                                setMarkers(map, installations);
+                                            }
+
+                                            function setMarkers(map, installations){
+                                                for(var i=0; i<installations.length; i++){
+                                                    var install = installations[i];
+                                                    alert("nom: "+install[0])
+                                                    var myLatLng = new google.maps.LatLng(install[7], install[8]);
+                                                    alert("ma longLat : "+myLatLng)
+                                                    var infoWindow = new google.maps.InfoWindow();
+                                                    var marker = new google.maps.Marker({
+                                                        position : myLatLng,
+                                                        map : map
+                                                    });
+                                                    (function(i){
+                                                        google.maps.event.addListener(marker, "click", function () {
+                                                            var install = installations[i];
+                                                            infoWindow.close();
+                                                            infoWindow.setContent('<div id="content">' +
+                                                                '<h1 id="firstHeading" class="firstHeading">'+ install[0] +'</h1>' +
+                                                                '<div id="bodyContent">' +
+                                                                '<p>Adresse : <br/>'+install[5]+' '+ install[6] +'<br/>'+ install[2] +' '+install[3] ''<br/>' +'</p>'+
+                                                                '<p>Nombre de places dans le parking : ' + install[10] +'</p>'+
+                                                                '</div>');
+                                                            infoWindow.open(map, this);
+                                                        })
+                                                    })(i);
+                                                }
+                                            }
+                                            </script>
+                                            <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+                                            </script>
+                                            <script async defer
+                                                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjeQGgnAwUgK0VgEHfOWArZ1mgVYiJvEQ&callback=initMap">
+                                            </script>
+                                        </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+            <!--<div class="container">
+                <div class="row">
+                    <div class="v-spacer col-sm-12 v-height-small"></div>
+                </div>
+            </div>-->
+
+            <div class="container">
+
                 <div class="row">
 
                     <div class="v-content-wrapper">
@@ -212,55 +284,5 @@
     <script src="../webpage/plugins/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
 
     <script src="../webpage/js/theme-core.js"></script>
-
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.11&sensor=false" type="text/javascript"></script>
-
-    <script type="text/javascript">
-        // check DOM Ready
-        $(document).ready(function() {
-            // execute
-            (function() {
-                // map options
-                var options = {
-                    zoom: 5,
-                    center: new google.maps.LatLng(39.909736, -98.522109), // centered US
-                    mapTypeId: google.maps.MapTypeId.TERRAIN,
-                    mapTypeControl: false
-                };
-
-                // init map
-                var map = new google.maps.Map(document.getElementById('map_canvas'), options);
-
-                // NY and CA sample Lat / Lng
-                var southWest = new google.maps.LatLng(40.744656, -74.005966);
-                var northEast = new google.maps.LatLng(34.052234, -118.243685);
-                var lngSpan = northEast.lng() - southWest.lng();
-                var latSpan = northEast.lat() - southWest.lat();
-
-                // set multiple marker
-                for (var i = 0; i < 250; i++) {
-                    // init markers
-                    var marker = new google.maps.Marker({
-                        position: new google.maps.LatLng(southWest.lat() + latSpan * Math.random(), southWest.lng() + lngSpan * Math.random()),
-                        map: map,
-                        title: 'Click Me ' + i
-                    });
-
-                    // process multiple info windows
-                    (function(marker, i) {
-                        // add click event
-                        google.maps.event.addListener(marker, 'click', function() {
-                            infowindow = new google.maps.InfoWindow({
-                                content: 'Hello, World!!'
-                            });
-                            infowindow.open(map, marker);
-                        });
-                    })(marker, i);
-                }
-            })();
-        });
-        </script>
-
 </body>
 </html>

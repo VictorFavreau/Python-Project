@@ -59,7 +59,7 @@ def dico_activites(numInstall):
         for row1 in c1:
             dico_activites[row1[0]] = row1[1]
     conn.close()
-    #print(dico_activites)
+    print(dico_activites)
     return dico_activites
 
 # Fonction qui récupère toutes les activités d'une ville
@@ -73,25 +73,38 @@ def dico_activitesVille(nomCommune):
     c.execute(requete, (nomCommune,))
     for row in c:
         dico_activitesVille[row[0]] = row[1]
-
-    #print(dico_activitesVille)
+    print(dico_activitesVille)
     conn.close()
     return dico_activitesVille
+
 
 # Fonction qui récupère toutes les installations possédant une activitée donnée d'une ville
 # Parametre nomCommune : Nom de la commune dont l'on souhaite connaître les installations
 #           nomActivitee : Nom de l'activitée dont l'on souhaite connaître les installations qui l'a propose
 # Retourne un dico composé de toutes les installations d'une ville qui propose cette activitée
-def dico_installActiv(nomCommune, nomActivitee):
+def dico_trouveInstall(nomCommune, nomActivitee):
     # Ouverture de la connexion à la BD
     conn = sqlite3.connect("python_project.db")
     c = conn.cursor()
-    dico_installActiv = {}
-    requete = """SELECT DISTINCT i.numInstall, i.nomInstall FROM equipements As e INNER JOIN activite As a ON e.EquipementId=a.equipID AND a.nomAct=? INNER JOIN installations As i ON e.InsNumeroInstall=i.numInstall AND i.nomCommune=?"""
+    listeInstallations = []
+    requete = """SELECT DISTINCT i.nomInstall, i.numInstall, i.nomCommune, i.cdp, i.nomLieuDit, 
+                        i.numVoie, i.nomVoie, i.longitude, i.latitude, i.accessH, i.nbPlacesP
+                        FROM equipements As e INNER JOIN activite As a ON e.EquipementId=a.equipID AND a.nomAct=? 
+                        INNER JOIN installations As i ON e.InsNumeroInstall=i.numInstall AND i.nomCommune=?"""
     c.execute(requete,(nomActivitee, nomCommune))
+    i = 0
     for row in c:
-        dico_installActiv[row[0]] = row[1]
-    print(dico_installActiv)
+        listeInstallations.append([row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10]])
     conn.close()
+    #print(listeInstallations)
+    return listeInstallations
 
-dico_activitesVille("Nantes")
+def dico_installations(nomCommune, nomActivite):
+    dico_installations = {}
+    #On récupère toutes les installations d'une activitée voulu
+    dico_install = dico_trouveInstall(nomCommune, nomActivite)
+    #Pour chaque installation on récupère tous ses activités
+    for key,value in dico_install.iteritems():
+        dico_installations[value]= dico_activites(key)
+
+dico_trouveInstall("Nantes","Handball / Mini hand / Handball de plage")
