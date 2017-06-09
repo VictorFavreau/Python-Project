@@ -21,6 +21,7 @@ On the terminal linux :
 - cd Python-Project
 - python Database_creation.py
 - python Server.py
+
 On your web browser : 
 - search the url : localhost:8080
 - use the differents input fields select your criteria
