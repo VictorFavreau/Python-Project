@@ -91,82 +91,10 @@
                 <div class="row">
                     <div class="v-page-wrap no-top-spacing no-bottom-spacing">
 						<div class="row fw-row">
-
-
-
-
 							<div class="v-gmap-widget fullscreen-map col-sm-12">
 								<div class="v-wrapper">
-                                        <div id="googlemapsFullWidth" style="height:450px;"
-                                             class="google-map mt-none mb-none"></div>
-                                        <script>
-                                            %
-                                                var installations = []
-                                                var i = 0
-                                                for install in installation :
-                                                   installations[i]=install
-                                            % end
-                                            alert(installations[1].nomInstall)
 
-                                            function initMap() {
-                                                var map = new google.maps.Map(document.getElementById('googlemapsFullWidth'), {
-                                                    zoom: 4,
-                                                    center: new google.maps.LatLng(47.1964374,-1.5731989),
-                                                    clickableIcons: false
-                                                });
-                                                setMarkers(map, installations);
-                                            }
-
-                                            function setMarkers(map, installations){
-                                                for(var i=0; i<installations.length; i++){
-                                                    var install = installations[i];
-                                                    alert("nom: "+install[0])
-                                                    var myLatLng = new google.maps.LatLng(install[7], install[8]);
-                                                    alert("ma longLat : "+myLatLng)
-                                                    var infoWindow = new google.maps.InfoWindow();
-                                                    var marker = new google.maps.Marker({
-                                                        position : myLatLng,
-                                                        map : map
-                                                    });
-                                                    (function(i){
-                                                        google.maps.event.addListener(marker, "click", function () {
-                                                            var install = installations[i];
-                                                            infoWindow.close();
-                                                            infoWindow.setContent('<div id="content">' +
-                                                                '<h1 id="firstHeading" class="firstHeading">'+ install[0] +'</h1>' +
-                                                                '<div id="bodyContent">' +
-                                                                '<p>Adresse : <br/>'+install[5]+' '+ install[6] +'<br/>'+ install[2] +' '+install[3] ''<br/>' +'</p>'+
-                                                                '<p>Nombre de places dans le parking : ' + install[10] +'</p>'+
-                                                                '</div>');
-                                                            infoWindow.open(map, this);
-                                                        })
-                                                    })(i);
-                                                }
-                                            }
-                                            </script>
-                                            <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
-                                            </script>
-                                            <script async defer
-                                                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjeQGgnAwUgK0VgEHfOWArZ1mgVYiJvEQ&callback=initMap">
-                                            </script>
-                                        </div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-
-
-            <!--<div class="container">
-                <div class="row">
-                    <div class="v-spacer col-sm-12 v-height-small"></div>
-                </div>
-            </div>-->
-
-            <div class="container">
-
+                                    <div id="map_canvas" style="height:450px;" class="google-map mt-none mb-none" action="/search"></div>
                 <div class="row">
 
                     <div class="v-content-wrapper">
@@ -260,9 +188,11 @@
         </div>
 
         </div>
-
-
-    </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
 
     <!--// BACK TO TOP //-->
     <div id="back-to-top" class="animate-top"><i class="fa fa-angle-up"></i></div>
@@ -284,5 +214,55 @@
     <script src="../webpage/plugins/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
 
     <script src="../webpage/js/theme-core.js"></script>
+
+
+
+
+    <script type="text/javascript">
+
+        // check DOM Ready
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map_canvas'), {
+                zoom: 4,
+                center: new google.maps.LatLng(47.1964374,-1.5731989),
+                clickableIcons: false
+            });
+
+            %
+                var installations = {{!liste_install}}
+            % end
+            console.log(installations);
+            setMarkers(map, installations);
+        }
+
+        function setMarkers(map, installations){
+            for(var i=0; i<installations.length; i++){
+                var install = installations[i];
+                var myLatLng = new google.maps.LatLng(install.latitude, install.longitude);
+                var infoWindow = new google.maps.InfoWindow();
+                var marker = new google.maps.Marker({
+                    position : myLatLng,
+                    map : map
+                });
+                (function(i){
+                    google.maps.event.addListener(marker, "click", function () {
+                        var install = installations[i];
+                        infoWindow.close();
+                        infoWindow.setContent('<div id="content">'+'<div id="siteNotice">'+'</div>'+
+                            '<h2 class="firstHeading"><b>'+ install.nomInstall + '</b><br/>'+ install.nomCommune + ' - ' + install.cdp +'</h2>'+
+                            '<div id="bodyContent">'+'<ul>' +'<li>- Accès Handicapé: ' + install.accessH +'</li>' +
+                            '<li>- Nombre Places de Parking: '+ install.nbPlacesP +'</li>' +'</ul>'+'</div>'+
+                            '</div>');
+                        infoWindow.open(map, this);
+                    })
+                })(i);
+            }
+        }
+    </script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjeQGgnAwUgK0VgEHfOWArZ1mgVYiJvEQ&callback=initMap">
+    </script>
 </body>
 </html>
