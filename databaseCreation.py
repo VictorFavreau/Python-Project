@@ -14,7 +14,9 @@ requete_equipements = """CREATE TABLE equipements (id integer PRIMARY KEY,
           EquNomBatiment text,
           EquNbPlaceTribune integer,
           EquAccesHandisAucun integer,
-          EquDateMaj date)"""
+          EquDateMaj date,
+          EquX real,
+          EquY real)"""
 c.execute(requete_equipements)
 
 # creation de la table activite

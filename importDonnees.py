@@ -20,7 +20,7 @@ class Installation :
         print("{0}, {1}, {2}".format(self.nomInstall, self.numInstall, self.nomCommune))
 
 class Equipement :
-    def __init__(self, numInstall, numEqu, nomEqu, nomBat, nbPTribune, accessH, dateMaj):
+    def __init__(self, numInstall, numEqu, nomEqu, nomBat, nbPTribune, accessH, dateMaj, equX, equY):
         self.numInstall = numInstall
         self.numEqu = numEqu
         self.nomEqu = nomEqu
@@ -28,6 +28,8 @@ class Equipement :
         self.nbPTribune = nbPTribune
         self.accessH = accessH
         self.dateMaj = dateMaj
+        self.equX = equX
+        self.equY = equY
 
     def display_equip(self):
         print("{0}, {1}, {2}".format(self.numInstall, self.numEqu, self.nomEqu))
@@ -69,16 +71,16 @@ def importEquipement(nomFichier):
     c = conn.cursor()
     # Préparation de la requête préparer
     insert_query = """INSERT INTO equipements(InsNumeroInstall, EquipementId, EquNom, EquNomBatiment, 
-                        EquNbPlaceTribune, EquAccesHandisAucun, EquDateMaj)
-                        VALUES (?, ?, ?, ?, ?, ?, ?)"""
+                        EquNbPlaceTribune, EquAccesHandisAucun, EquDateMaj, EquX, EquY)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
     # Lit le fichier csv ligne par ligne
     fichier = csv.DictReader(codecs.open(nomFichier, "r", "utf-8"))
     for row in fichier:
         # Pour chaque ligne on créer un nouvel objet équipement
         equip = Equipement(row['InsNumeroInstall'], row['EquipementId'], row['EquNom'], row['EquNomBatiment'], row['EquNbPlaceTribune'], \
-            row['EquAccesHandisAucun'], row['EquDateMaj'])
+            row['EquAccesHandisAucun'], row['EquDateMaj'], row['EquGpsX'], row['EquGpsY'])
         #Insertion dans la BD de l'équipement
-        c.execute(insert_query, (equip.numInstall, equip.numEqu, equip.nomEqu, equip.nomBat, equip.nbPTribune, equip.accessH, equip.dateMaj))
+        c.execute(insert_query, (equip.numInstall, equip.numEqu, equip.nomEqu, equip.nomBat, equip.nbPTribune, equip.accessH, equip.dateMaj, equip.equX, equip.equY))
     conn.commit()
     conn.close()
 

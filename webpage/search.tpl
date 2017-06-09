@@ -170,20 +170,21 @@
 
         // check DOM Ready
         function initMap() {
-            var map = new google.maps.Map(document.getElementById('map_canvas'), {
-                zoom: 4,
-                center: new google.maps.LatLng(47.1964374,-1.5731989),
-                clickableIcons: false
-            });
-
             %
                 var installations = {{!liste_install}}
             % end
-            console.log(installations);
+            install = installations[0]
+            var map = new google.maps.Map(document.getElementById('map_canvas'), {
+                zoom: 11,
+                center: new google.maps.LatLng(install.latitude, install.longitude),
+                clickableIcons: false
+            });
+
             setMarkers(map, installations);
         }
 
         function setMarkers(map, installations){
+            var j = 0
             for(var i=0; i<installations.length; i++){
                 var install = installations[i];
                 var myLatLng = new google.maps.LatLng(install.latitude, install.longitude);

@@ -17,7 +17,6 @@ def dico_villes(cdp):
     for row in c :
         ville.append(row[0])
     conn.close()
-    print(ville)
     return ville
 
 # Fonction qui récupère toutes les installations d'une ville
@@ -30,14 +29,31 @@ def dico_installations(nomCommune):
     # Création dictionnaire des villes avec comme clé le code postal et la valeur le nom de la ville
     dico_install = {}
     # On récupère dans la table Installations tous les cdp et nom de villes dans la BD
-    requete = """SELECT DISTINCT numInstall, nomInstall FROM installations WHERE nomCommune = ? ORDER BY nomInstall"""
+    requete = """SELECT DISTINCT i.numInstall, i.nomInstall, i.nomCommune, i.cdp, i.nomLieuDit, i.numVoie, i.nomVoie,
+                    i.accessH, i.nbPlacesP, e.EquX, e.EquY, i.longitude, i.latitude FROM equipements As e 
+                    INNER JOIN installations As i ON e.InsNumeroInstall=i.numInstall AND i.nomCommune=?"""
     c.execute(requete,(nomCommune,))
-    #for row in c:
-     #   if row[1] != "":
-      #      dico_install[row[0]] = row[1]
+    i = 0
+    liste_install = []
+    for row in c:
+        dico_install = {}
+        dico_install["numInstall"] = row[0]
+        dico_install["nomInstall"] = row[1]
+        dico_install["nomCommune"] = row[2]
+        dico_install["cdp"] = row[3]
+        dico_install["nomLieuDit"] = row[4]
+        dico_install["numVoie"] = row[5]
+        dico_install["nomVoie"] = row[6]
+        dico_install["accessH"] = row[7]
+        dico_install["nbPlacesP"] = row[8]
+        dico_install["longitude"] = row[9]
+        dico_install["latitude"] = row[10]
+        liste_install.insert(i, dico_install)
+        i = i + 1
     conn.close()
-    #print(dico_install)
-    return c
+    # Conversion en JSON
+    json_data = json.dumps(liste_install)
+    return json_data
 
 # Fonction qui récupère toutes les activités d'une installation
 # Parametre numInstall : Numéro de l'installation dont l'on souhaite connaître les activités
@@ -60,7 +76,6 @@ def dico_activites(numInstall):
         for row1 in c1:
             dico_activites[row1[0]] = row1[1]
     conn.close()
-    #print(dico_activites)
     return dico_activites
 
 # Fonction qui récupère toutes les activités d'une ville
@@ -75,7 +90,6 @@ def dico_activitesVille(nomCommune):
     for row in c:
         dico_activitesVille[row[0]] = row[1]
 
-    #print(dico_activitesVille)
     conn.close()
     return dico_activitesVille
 
@@ -87,31 +101,29 @@ def dico_installActiv(nomCommune, nomActivitee):
     # Ouverture de la connexion à la BD
     conn = sqlite3.connect("python_project.db")
     c = conn.cursor()
-    liste_install = []
 
     requete = """SELECT DISTINCT i.numInstall, i.nomInstall, i.nomCommune, i.cdp, i.nomLieuDit, i.numVoie, i.nomVoie,
-                    i.longitude, i.latitude, i.accessH, i.nbPlacesP FROM equipements As e INNER JOIN activite As a ON e.EquipementId=a.equipID 
+                    i.accessH, i.nbPlacesP, e.EquX, e.EquY, i.longitude, i.latitude FROM equipements As e INNER JOIN activite As a ON e.EquipementId=a.equipID 
                     AND a.nomAct=? INNER JOIN installations As i ON e.InsNumeroInstall=i.numInstall AND i.nomCommune=?"""
     c.execute(requete,(nomActivitee, nomCommune))
     i=0
-    apikey = "AIzaSyC8cb_1Bhf_cq0Q9SpghQMVIZhNQFLgzx8"
+    liste_install = []
     for row in c:
         dico_installActiv = {}
+        dico_installActiv["numInstall"] = row[0]
         dico_installActiv["nomInstall"] = row[1]
         dico_installActiv["nomCommune"] = row[2]
         dico_installActiv["cdp"] = row[3]
         dico_installActiv["nomLieuDit"] = row[4]
         dico_installActiv["numVoie"] = row[5]
         dico_installActiv["nomVoie"] = row[6]
-        dico_installActiv["longitude"] = row[7]
-        dico_installActiv["latitude"] = row[8]
-        dico_installActiv["accessH"] = row[9]
-        dico_installActiv["nbPlacesP"] = row[10]
+        dico_installActiv["accessH"] = row[7]
+        dico_installActiv["nbPlacesP"] = row[8]
+        dico_installActiv["longitude"] = row[9]
+        dico_installActiv["latitude"] = row[10]
         liste_install.insert(i,dico_installActiv)
         i=i+1
     conn.close()
     #Conversion en JSON
     json_data = json.dumps(liste_install)
     return json_data
-
-dico_installActiv("Nantes","Football / Football en salle (Futsal)")
