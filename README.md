@@ -19,8 +19,8 @@ On the terminal linux :
 - apt-get install python3
 - git clone https://github.com/VictorFavreau/Python-Project.git
 - cd Python-Project
-- python Database_creation.py
-- python Server.py
+- python3 Database_creation.py
+- python3 Server.py
 
 On your web browser : 
 - search the url : localhost:8080
