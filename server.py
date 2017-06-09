@@ -4,7 +4,9 @@ from bottle import get, post, request, run
 from dico_villes import *
 
 
-
+#############################################################
+# CREATING NAVIGATION ROUTE                                 #
+#############################################################
 @route('/')
 def get_index():
     return template('webpage/index')
@@ -13,7 +15,6 @@ def get_index():
 @route('/index')
 def get_index():
     return template('webpage/index')
-
 
 
 @route('/city', method='POST')
@@ -31,34 +32,39 @@ def get_city():
 @route('/activity', method='POST')
 def get_activity():
 
-    lv_cdp = request.forms.get('zip')
-    lv_ccommune = request.forms.get('select_ville')
-    print(lv_ccommune)
+    lv_cdp         = request.forms.get('zip')
+    lv_commune     = request.forms.get('select_ville')
+    lv_commune     = lv_commune.encode('ISO-8859-15').decode()
 
 
-    liste_activite = dico_activitesVille(lv_ccommune)
 
-    return template('webpage/activity', zip=lv_cdp, commune=lv_ccommune, liste_activites=liste_activite)
+    liste_activite = dico_activitesVille(lv_commune)
+
+    return template('webpage/activity', zip=lv_cdp, commune=lv_commune, liste_activites=liste_activite)
+
 
 @route('/search', method='POST')
 def get_search():
 
-    lv_commune = request.forms.get('ville')
+    lv_commune  = request.forms.get('ville')
+    lv_commune = lv_commune.encode('ISO-8859-15').decode()
     lc_activite = request.forms.get('select_activite')
-
-
-
 
     if(lc_activite == "Toutes"):
         liste_install = dico_installations(lv_commune)
     else:
         liste_install = dico_installActiv(lv_commune, lc_activite)
 
+    print("liste: " + liste_install)
+
 
     return template('webpage/search', liste_install=liste_install)
 
 
 
+#############################################################
+# CREATING ROUTES FOR THE TEMPLATE                          #
+#############################################################
 
 @route("/webpage/css/<filename>")
 def style(filename):
