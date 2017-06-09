@@ -75,6 +75,7 @@ def importInstallation(nomFichier):
     conn.close()
 
 
+
 def importEquipement(nomFichier):
     # Openning the database connection
     conn = sqlite3.connect("python_project.db")
