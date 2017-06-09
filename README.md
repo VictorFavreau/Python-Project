@@ -2,15 +2,11 @@
 
 In this project, we have realize a web application in python for make an inventory of the differents installations of sport.
 
-1. Getting Started
-
-First of all, DON'T PANIC. It will take 5 minutes to get the gist of what Elasticsearch is all about.
-
-2. Requirements
+1. Requirements
 
 You need to have a PC on linux and chromium/chrome for best and easy result.
 
-3. Installation
+2. Installation
 
 On the terminal linux : 
 - sudo su (and you sould enter your password)
