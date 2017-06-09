@@ -93,26 +93,8 @@
 						<div class="row fw-row">
 							<div class="v-gmap-widget fullscreen-map col-sm-12">
 								<div class="v-wrapper">
-							<!-- Full Width -->
-							<!--<div id="googlemapsFullWidth" style="height:450px;" class="google-map mt-none mb-none"></div>-->
-									<div id="googlemapsFullWidth" style="height:450px;" class="google-map mt-none mb-none"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2710.9983503689273!2d-1.5278730846207877!3d47.1970448241733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4805e92e53c8d559%3A0x95d3afd1bd931315!2s18+Rue+Bonne+Garde%2C+44230+Saint-S%C3%A9bastien-sur-Loire!5e0!3m2!1sfr!2sfr!4v1493971893123" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 
-
-
-            <!--<div class="container">
-                <div class="row">
-                    <div class="v-spacer col-sm-12 v-height-small"></div>
-                </div>
-            </div>-->
-
-            <div class="container">
-
+                                    <div id="map_canvas" style="height:450px;" class="google-map mt-none mb-none" action="/search"></div>
                 <div class="row">
 
                     <div class="v-content-wrapper">
@@ -230,5 +212,55 @@
     <script src="../webpage/plugins/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
 
     <script src="../webpage/js/theme-core.js"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.11&sensor=false" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        // check DOM Ready
+        $(document).ready(function() {
+            // execute
+            (function() {
+                // map options
+                var options = {
+                    zoom: 5,
+                    center: new google.maps.LatLng(39.909736, -98.522109), // centered US
+                    mapTypeId: google.maps.MapTypeId.TERRAIN,
+                    mapTypeControl: false
+                };
+
+                // init map
+                var map = new google.maps.Map(document.getElementById('map_canvas'), options);
+
+                // NY and CA sample Lat / Lng
+                var southWest = new google.maps.LatLng(40.744656, -74.005966);
+                var northEast = new google.maps.LatLng(34.052234, -118.243685);
+                var lngSpan = northEast.lng() - southWest.lng();
+                var latSpan = northEast.lat() - southWest.lat();
+
+                // set multiple marker
+                for (var i = 0; i < 250; i++) {
+                    // init markers
+                    var marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(southWest.lat() + latSpan * Math.random(), southWest.lng() + lngSpan * Math.random()),
+                        map: map,
+                        title: 'Click Me ' + i
+                    });
+
+                    // process multiple info windows
+                    (function(marker, i) {
+                        // add click event
+                        google.maps.event.addListener(marker, 'click', function() {
+                            infowindow = new google.maps.InfoWindow({
+                                content: 'Hello, World!!'
+                            });
+                            infowindow.open(map, marker);
+                        });
+                    })(marker, i);
+                }
+            })();
+        });
+        </script>
+
 </body>
 </html>

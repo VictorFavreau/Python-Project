@@ -55,7 +55,6 @@
                         <!--<img src="img/image2.png" alt="fullslide6" data-start="0" data-speed="0" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat">-->
                         <!-- LAYERS -->
 
-
                         <div class="tp-caption light_heavy_50 sfl stl"
                             data-x="435"
                             data-y="0"
@@ -100,24 +99,20 @@
 							<div class="row">
 								<div class="col-md-4 form-group">
 
-									<input id="zip" type="text" placeholder="Zip" class="form-control" required="required" maxlength="5">
+									<input id="zip" type="text" placeholder="Zip" class="form-control" maxlength="5" value="{{zip}} " readonly="readonly">
 								</div>
 
 								<div id="div_ville" class="col-md-8">
                                     <!--<select class="form-control" disabled="">-->
-                                    <select id="select_ville" class="form-control" disabled="">
+                                    <select id="select_ville" class="form-control">
 
+                                        % for ville in liste_ville:
+                                            <option>{{ville}}</option>
+                                        % end
                                     </select>
 								</div>
 
-								<div id="div_activite" class="col-md-12">
 
-									<select id="select_activite" class="form-control" >
-                                        <option>Activité 1</option>
-                                        <option>Activité 2</option>
-                                        <option>Activité 3</option>
-                                    </select>
-								</div>
 							</div>
 						</div>
 
@@ -132,7 +127,21 @@
                             data-elementdelay="0"
                             data-endelementdelay="0"
                             data-endspeed="300">
-                            <a href='#' id="btn_suivant" class="btn v-btn v-second-light"><i class="fa fa-play"></i> SUIVANT</a>
+                            <a href='#' id="btn_suivant" class="btn v-btn v-second-light"><i class="fa fa-search"></i> SUIVANT </a>
+                        </div>
+
+                        <div class="tp-caption sfl stl"
+                            data-x="700"
+                            data-y="370"
+                            data-speed="0"
+                            data-start="0"
+                            data-easing="Power1.easeInOut"
+                            data-splitin="none"
+                            data-splitout="none"
+                            data-elementdelay="0"
+                            data-endelementdelay="0"
+                            data-endspeed="300">
+                            <a href='/index' id="btn_new" class="btn v-btn v-second-light"><i class="fa fa-refresh"></i> NOUVELLE RECHERCHE</a>
                         </div>
 
 
@@ -172,27 +181,11 @@
     <script>
 		$(document).ready(function() {
 
-			$("#div_activite").toggle();
-			$("#btn_suivant").toggle();
-
-
 			$('#btn_suivant').click(function () {
 
-
-                $(this).attr('href', '/city/' +$('#zip').val());
+                $(this).attr('href', '/activity/' +{{zip}} + "_" +$('#select_ville').val());
             });
 
-			$('#zip').bind('input', function() {
-				var size = document.getElementById("zip").value.length;
-				if(size == 5)
-				{
-					$("#btn_suivant").toggle(true);
-				}
-				else
-				{
-					$("#btn_suivant").toggle(false);
-				}
-			});
 		});
 
 	</script>

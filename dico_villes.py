@@ -59,7 +59,7 @@ def dico_activites(numInstall):
         for row1 in c1:
             dico_activites[row1[0]] = row1[1]
     conn.close()
-    print(dico_activites)
+    #print(dico_activites)
     return dico_activites
 
 # Fonction qui récupère toutes les activités d'une ville
@@ -73,9 +73,10 @@ def dico_activitesVille(nomCommune):
     c.execute(requete, (nomCommune,))
     for row in c:
         dico_activitesVille[row[0]] = row[1]
-    print(dico_activitesVille)
-    conn.close()
 
+    #print(dico_activitesVille)
+    conn.close()
+    return dico_activitesVille
 
 # Fonction qui récupère toutes les installations possédant une activitée donnée d'une ville
 # Parametre nomCommune : Nom de la commune dont l'on souhaite connaître les installations

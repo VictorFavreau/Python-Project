@@ -1,15 +1,44 @@
 import sqlite3
 from bottle import get, post, request, run, template, route, static_file
 from bottle import get, post, request, run
+from dico_villes import *
 
 
-@get('/index')
+
+@route('/index')
 def get_index():
     return template('webpage/index')
 
-@get('/search')
-def get_search():
-    return template('webpage/search')
+@route('/city/<zip>')
+def get_city(zip):
+    global lv_cdp
+    lv_cdp = zip
+
+    liste_ville = dico_villes(zip)
+    return template('webpage/city', zip=lv_cdp, liste_ville=liste_ville)
+
+@route('/activity/<select_ville>')
+def get_activity(select_ville):
+
+    recup_string = select_ville.split("_")
+    liste_activite = dico_activitesVille(recup_string[1])
+
+    return template('webpage/activity', zip=recup_string[0], commune=recup_string[1], liste_activites=liste_activite)
+
+@route('/search/<select_activity>')
+def get_search(select_activity):
+
+    recup_string = select_activity.split("_")
+
+    if(recup_string[1] == "Toutes"):
+        liste_install = dico_installations(recup_string[0])
+    else:
+        liste_install = dico_installActiv(recup_string[0], recup_string[1])
+
+
+    print(liste_install)
+
+    return template('webpage/search', liste_install=liste_install)
 
 @route("/webpage/css/<filename>")
 def style(filename):
