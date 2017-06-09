@@ -74,36 +74,6 @@ def installation_dictionary(nomCommune):
     return json_data
 
 """
-        Function that returns all activities associated with an Installation.
-
-        :return: Activity dictionary
-"""
-def activity_dictionary(install_id):
-    """
-            Opening the database connection.
-    """
-    conn = sqlite3.connect("python_project.db")
-    c = conn.cursor()
-    c1 = conn.cursor()
-    """
-            Creation dictionary of Activity with as key the Activity number and as value the Activity name.
-    """
-    activity_dictionary = {}
-
-    first_request   = """SELECT EquipementId FROM equipements WHERE InsNumeroInstall =?"""
-    second_request  = """SELECT DISTINCT codeAct, nomAct FROM activite WHERE equipID =? ORDER BY nomAct"""
-    c.execute(first_request,(install_id,))
-    for row in c :
-        equipment_code = row[0]
-
-        c1.execute(second_request,(equipment_code,))
-        for row1 in c1:
-            activity_dictionary[row1[0]] = row1[1]
-
-    conn.close()
-    return activity_dictionary
-
-"""
         Function that returns all the activities of a city.
 
         :return: returns nothing

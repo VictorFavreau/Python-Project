@@ -177,11 +177,12 @@
         function initMap() {
             %
                 var installations = {{!liste_install}}
+                print(installations)
             % end
 
             install = installations[0]
             var map = new google.maps.Map(document.getElementById('map_canvas'), {
-                zoom:10,
+                zoom:12,
                 center: new google.maps.LatLng(install.latitude, install.longitude),
                 clickableIcons: false
             });

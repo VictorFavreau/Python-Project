@@ -1,9 +1,10 @@
+import os
 import sqlite3
+from importDonnees import *
 
 # open the database connection
 conn = sqlite3.connect("python_project.db")
 c = conn.cursor()
-
 
 # Creation of the "equipements" table
 c.execute("DROP TABLE IF EXISTS equipements")
@@ -20,7 +21,6 @@ lvc_equipment_request = """CREATE TABLE equipements (id integer PRIMARY KEY,
 c.execute(lvc_equipment_request)
 
 
-
 # Creation of the "activite" table
 c.execute("DROP TABLE IF EXISTS activite")
 lvc_activity_request = """CREATE TABLE activite (id integer PRIMARY KEY,
@@ -32,7 +32,7 @@ c.execute(lvc_activity_request)
 
 
 # Creation of the "equipements_activite" table
-c.execute("DROP TABLE IF EXISTS equipements_activite")
+c.execute("DROP TABLE IF EXISTS installations")
 lvc_installation_bd = """CREATE TABLE installations (id integer PRIMARY KEY,
           nomInstall text,
           numInstall integer,
@@ -48,3 +48,10 @@ lvc_installation_bd = """CREATE TABLE installations (id integer PRIMARY KEY,
 c.execute(lvc_installation_bd)
 
 conn.commit()
+
+print("**** IMPORTATION OF INSTALLATIONS ****")
+importInstallation("data/installations.csv")
+print("**** IMPORTATION OF EQUIPEMENTS ****")
+importEquipement("data/equipements.csv")
+print("**** IMPORTATION OF ACTIVITEES ****")
+importActivites("data/activites.csv")

@@ -111,10 +111,3 @@ def importActivites(nomFichier):
         c.execute(insert_query, (act.numEqu, act.numAct, act.nomAct, act.typeAct))
     conn.commit()
     conn.close()
-
-print("**** IMPORTATION OF INSTALLATIONS ****")
-importInstallation("data/installations.csv")
-print("**** IMPORTATION OF EQUIPEMENTS ****")
-importEquipement("data/equipements.csv")
-print("**** IMPORTATION OF ACTIVITEES ****")
-importActivites("data/activites.csv")
