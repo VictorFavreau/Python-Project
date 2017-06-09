@@ -5,6 +5,11 @@ from dico_villes import *
 
 
 
+@route('/')
+def get_index():
+    return template('webpage/index')
+
+
 @route('/index')
 def get_index():
     return template('webpage/index')
@@ -15,7 +20,12 @@ def get_city(zip):
     lv_cdp = zip
 
     liste_ville = dico_villes(zip)
-    return template('webpage/city', zip=lv_cdp, liste_ville=liste_ville)
+
+    if(len(liste_ville) != 0):
+        return template('webpage/city', zip=lv_cdp, liste_ville=liste_ville)
+    else:
+        return template('webpage/index')
+
 
 @route('/activity/<select_ville>')
 def get_activity(select_ville):

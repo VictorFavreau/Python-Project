@@ -3,9 +3,9 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Volvox - Responsive HTML5 Bootstrap Template</title>
-    <meta name="keywords" content="HTML5 Template" />
-    <meta name="description" content="Volvox - Responsive HTML5 Template">
+    <title>SPORT-FINDER</title>
+    <meta name="keywords" content="SPORT-FINDER" />
+    <meta name="description" content="SPORT-FINDER">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="shortcut icon" type="image/png" href="../webpage/img/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -86,6 +86,10 @@
 
         <div class="v-page-wrap no-bottom-spacing">
 
+            <div class="container">
+                <div class="v-spacer col-sm-12 v-height-mini"></div>
+            </div>
+
             <!--Set your own slider options. Look at the v_RevolutionSlider() function in 'theme-core.js' file to see options-->
             <div class="container">
                 <div class="row">
@@ -119,63 +123,7 @@
             </div>
 
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel-group" id="accordion">
-                            <div class="panel panel-default">
 
-								<div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                            <i class="fa fa-location-arrow"></i>
-                                            Vision and Mission
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapseOne" class="accordion-body collapse in">
-                                    <div class="panel-body">
-                                        Donec tellus massa, tristique sit amet condim vel, facilisis quis sapien.
-                                        Praesent id enim sit amet odio vulputate eleifend in in tortor.
-                                        Donec tellus massa, tristique sit amet condim vel.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                                            <i class="fa fa-share"></i>
-                                            Services we offer
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapseTwo" class="accordion-body collapse">
-                                    <div class="panel-body">
-                                        Donec tellus massa, tristique sit amet condimentum vel, facilisis quis sapien.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                                            <i class="fa fa-flash"></i>
-                                            Our Commitments
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapseThree" class="accordion-body collapse">
-                                    <div class="panel-body">
-                                        Donec tellus massa, tristique sit amet condimentum vel, facilisis quis sapien.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
 
             <div class="container">
                 <div class="v-spacer col-sm-12 v-height-big"></div>

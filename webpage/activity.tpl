@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <title>SPORT-FINDER</title>
-    <meta name="keywords" content="HTML5 Template" />
-    <meta name="description" content="Volvox - Responsive HTML5 Template">
+    <meta name="keywords" content="SPORT-FINDER" />
+    <meta name="description" content="SPORT-FINDER">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="shortcut icon" type="image/png" href="../webpage/img/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
